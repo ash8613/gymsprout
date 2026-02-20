@@ -380,7 +380,7 @@ function ExerciseLibrary({
         </div>
 
         {/* Filter chips row */}
-        <div className="px-4 pb-3 flex gap-2 overflow-x-auto no-scrollbar">
+        <div className="px-4 pb-3 flex gap-2 flex-wrap">
           {/* All chip */}
           <button
             type="button"
@@ -394,164 +394,125 @@ function ExerciseLibrary({
             All
           </button>
 
-          {/* Muscle Group dropdown */}
-          <div className="relative shrink-0">
-            <button
-              type="button"
-              onClick={() => toggleDropdown("muscleGroup")}
-              className={`flex items-center gap-1 px-4 py-2 rounded-full text-xs font-semibold transition-colors ${
-                activeFilter === "muscleGroup"
-                  ? "bg-[#2D6A4F] text-white"
-                  : "bg-white text-gray-600 border border-gray-200"
-              }`}
-            >
-              {muscleGroupFilter || "Muscle Group"}
-              <svg
-                className={`w-3 h-3 transition-transform ${
-                  openDropdown === "muscleGroup" ? "rotate-180" : ""
-                }`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-            {openDropdown === "muscleGroup" && (
-              <div className="absolute top-full left-0 mt-1 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-30 max-h-56 overflow-y-auto">
-                {MUSCLE_GROUP_OPTIONS.map((group) => (
-                  <button
-                    key={group}
-                    type="button"
-                    onClick={() => applyFilter("muscleGroup", group)}
-                    className={`w-full text-left px-4 py-2.5 text-xs transition-colors ${
-                      muscleGroupFilter === group
-                        ? "bg-emerald-50 text-[#2D6A4F] font-semibold"
-                        : "text-gray-700 hover:bg-gray-50"
-                    }`}
-                  >
-                    {group}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Muscle Group chip */}
+          <button
+            type="button"
+            onClick={() => toggleDropdown("muscleGroup")}
+            className={`shrink-0 flex items-center gap-1 px-4 py-2 rounded-full text-xs font-semibold transition-colors ${
+              activeFilter === "muscleGroup"
+                ? "bg-[#2D6A4F] text-white"
+                : "bg-white text-gray-600 border border-gray-200"
+            }`}
+          >
+            {muscleGroupFilter || "Muscle Group"}
+            <svg className={`w-3 h-3 transition-transform ${openDropdown === "muscleGroup" ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
 
-          {/* Equipment dropdown */}
-          <div className="relative shrink-0">
-            <button
-              type="button"
-              onClick={() => toggleDropdown("equipment")}
-              className={`flex items-center gap-1 px-4 py-2 rounded-full text-xs font-semibold transition-colors ${
-                activeFilter === "equipment"
-                  ? "bg-[#2D6A4F] text-white"
-                  : "bg-white text-gray-600 border border-gray-200"
-              }`}
-            >
-              {equipmentFilter || "Equipment"}
-              <svg
-                className={`w-3 h-3 transition-transform ${
-                  openDropdown === "equipment" ? "rotate-180" : ""
-                }`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-            {openDropdown === "equipment" && (
-              <div className="absolute top-full left-0 mt-1 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-30 max-h-56 overflow-y-auto">
-                {EQUIPMENT_OPTIONS.map((equip) => (
-                  <button
-                    key={equip}
-                    type="button"
-                    onClick={() => applyFilter("equipment", equip)}
-                    className={`w-full text-left px-4 py-2.5 text-xs transition-colors ${
-                      equipmentFilter === equip
-                        ? "bg-emerald-50 text-[#2D6A4F] font-semibold"
-                        : "text-gray-700 hover:bg-gray-50"
-                    }`}
-                  >
-                    {equip}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Equipment chip */}
+          <button
+            type="button"
+            onClick={() => toggleDropdown("equipment")}
+            className={`shrink-0 flex items-center gap-1 px-4 py-2 rounded-full text-xs font-semibold transition-colors ${
+              activeFilter === "equipment"
+                ? "bg-[#2D6A4F] text-white"
+                : "bg-white text-gray-600 border border-gray-200"
+            }`}
+          >
+            {equipmentFilter || "Equipment"}
+            <svg className={`w-3 h-3 transition-transform ${openDropdown === "equipment" ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
 
-          {/* Level dropdown */}
-          <div className="relative shrink-0">
-            <button
-              type="button"
-              onClick={() => toggleDropdown("level")}
-              className={`flex items-center gap-1 px-4 py-2 rounded-full text-xs font-semibold transition-colors ${
-                activeFilter === "level"
-                  ? "bg-[#2D6A4F] text-white"
-                  : "bg-white text-gray-600 border border-gray-200"
-              }`}
-            >
-              {levelFilter
-                ? levelFilter.charAt(0).toUpperCase() + levelFilter.slice(1)
-                : "Level"}
-              <svg
-                className={`w-3 h-3 transition-transform ${
-                  openDropdown === "level" ? "rotate-180" : ""
-                }`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-            {openDropdown === "level" && (
-              <div className="absolute top-full left-0 mt-1 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-30">
-                {LEVEL_OPTIONS.map((level) => (
-                  <button
-                    key={level}
-                    type="button"
-                    onClick={() => applyFilter("level", level)}
-                    className={`w-full text-left px-4 py-2.5 text-xs capitalize transition-colors ${
-                      levelFilter === level
-                        ? "bg-emerald-50 text-[#2D6A4F] font-semibold"
-                        : "text-gray-700 hover:bg-gray-50"
-                    }`}
-                  >
-                    {level}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Level chip */}
+          <button
+            type="button"
+            onClick={() => toggleDropdown("level")}
+            className={`shrink-0 flex items-center gap-1 px-4 py-2 rounded-full text-xs font-semibold transition-colors ${
+              activeFilter === "level"
+                ? "bg-[#2D6A4F] text-white"
+                : "bg-white text-gray-600 border border-gray-200"
+            }`}
+          >
+            {levelFilter
+              ? levelFilter.charAt(0).toUpperCase() + levelFilter.slice(1)
+              : "Level"}
+            <svg className={`w-3 h-3 transition-transform ${openDropdown === "level" ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
         </div>
 
         {/* Divider */}
         <div className="h-px bg-gray-200" />
       </div>
 
-      {/* Close dropdown overlay */}
+      {/* Dropdown overlay + panels (rendered outside the sticky header so they aren't clipped) */}
       {openDropdown && (
         <div
-          className="fixed inset-0 z-10"
+          className="fixed inset-0 z-40"
           onClick={() => setOpenDropdown(null)}
           aria-hidden="true"
         />
+      )}
+
+      {openDropdown === "muscleGroup" && (
+        <div className="fixed left-4 top-[calc(env(safe-area-inset-top)+9.5rem)] w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50 max-h-64 overflow-y-auto">
+          {MUSCLE_GROUP_OPTIONS.map((group) => (
+            <button
+              key={group}
+              type="button"
+              onClick={() => applyFilter("muscleGroup", group)}
+              className={`w-full text-left px-4 py-2.5 text-xs transition-colors ${
+                muscleGroupFilter === group
+                  ? "bg-emerald-50 text-[#2D6A4F] font-semibold"
+                  : "text-gray-700 hover:bg-gray-50"
+              }`}
+            >
+              {group}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {openDropdown === "equipment" && (
+        <div className="fixed left-4 top-[calc(env(safe-area-inset-top)+9.5rem)] w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50 max-h-64 overflow-y-auto">
+          {EQUIPMENT_OPTIONS.map((equip) => (
+            <button
+              key={equip}
+              type="button"
+              onClick={() => applyFilter("equipment", equip)}
+              className={`w-full text-left px-4 py-2.5 text-xs transition-colors ${
+                equipmentFilter === equip
+                  ? "bg-emerald-50 text-[#2D6A4F] font-semibold"
+                  : "text-gray-700 hover:bg-gray-50"
+              }`}
+            >
+              {equip}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {openDropdown === "level" && (
+        <div className="fixed left-4 top-[calc(env(safe-area-inset-top)+9.5rem)] w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
+          {LEVEL_OPTIONS.map((level) => (
+            <button
+              key={level}
+              type="button"
+              onClick={() => applyFilter("level", level)}
+              className={`w-full text-left px-4 py-2.5 text-xs capitalize transition-colors ${
+                levelFilter === level
+                  ? "bg-emerald-50 text-[#2D6A4F] font-semibold"
+                  : "text-gray-700 hover:bg-gray-50"
+              }`}
+            >
+              {level}
+            </button>
+          ))}
+        </div>
       )}
 
       {/* Results count */}
