@@ -44,7 +44,7 @@ function MuscleGroupSelector({
   return (
     <div className="min-h-screen bg-[#F5F5F0] pb-28">
       {/* Header */}
-      <div className="px-4 pt-6 pb-4">
+      <div className="px-4 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-4">
         <h1 className="text-2xl font-bold text-gray-900">
           Choose Muscle Groups
         </h1>

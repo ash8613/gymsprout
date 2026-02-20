@@ -121,7 +121,7 @@ function ExerciseLibrary({
   return (
     <div className="min-h-screen bg-[#F5F5F0] pb-28">
       {/* Header */}
-      <div className="sticky top-0 z-20 bg-[#F5F5F0]">
+      <div className="sticky top-0 z-20 bg-[#F5F5F0] pt-[env(safe-area-inset-top)]">
         <div className="px-4 pt-4 pb-2 flex items-center gap-3">
           <button
             type="button"
