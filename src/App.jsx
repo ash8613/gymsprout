@@ -378,6 +378,12 @@ export default function App() {
     setPage('active_workout');
   }
 
+  async function handleAddCustomExercise(exerciseData) {
+    const id = await db.exercises.add(exerciseData);
+    const newExercise = { ...exerciseData, id };
+    setExercises(prev => [...prev, newExercise]);
+  }
+
   function handleExercisesConfirmed(selectedExercises) {
     if (!activeWorkout) return;
     const newExercises = selectedExercises.map(ex => ({ ...ex, sets: [] }));
@@ -560,6 +566,7 @@ export default function App() {
             userLevel={userProfile.level}
             selectionMode={!!activeWorkout}
             onConfirmSelection={handleExercisesConfirmed}
+            onAddCustomExercise={handleAddCustomExercise}
           />
         );
 
@@ -572,6 +579,7 @@ export default function App() {
             userLevel={userProfile.level}
             selectionMode={false}
             onConfirmSelection={() => {}}
+            onAddCustomExercise={handleAddCustomExercise}
           />
         );
 

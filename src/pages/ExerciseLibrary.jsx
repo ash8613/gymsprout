@@ -26,6 +26,173 @@ const EQUIPMENT_OPTIONS = [
 
 const LEVEL_OPTIONS = ["beginner", "intermediate", "advanced"];
 
+// Muscle group display name → DB id mapping
+const MUSCLE_GROUP_DB_MAP = {
+  "Chest": "chest",
+  "Back": "back",
+  "Shoulders": "shoulders",
+  "Biceps": "biceps",
+  "Triceps": "triceps",
+  "Legs": "legs",
+  "Glutes": "hamstrings",
+  "Core": "core",
+  "Calves": "calves",
+  "Full Body": "full_body",
+};
+
+const EQUIPMENT_DB_MAP = {
+  "Barbell": "barbell",
+  "Dumbbell": "dumbbells",
+  "Kettlebell": "kettlebell",
+  "Machine": "machine",
+  "Cable": "cable",
+  "Bodyweight": "bodyweight",
+  "Resistance Band": "resistance band",
+  "Other": "other",
+};
+
+// ─── Custom Exercise Form Modal ─────────────────────────────────────────────
+function CreateExerciseModal({ onSave, onClose }) {
+  const [name, setName] = useState("");
+  const [muscleGroup, setMuscleGroup] = useState("");
+  const [equipment, setEquipment] = useState("");
+  const [difficulty, setDifficulty] = useState("beginner");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name.trim()) { setError("Exercise name is required"); return; }
+    if (!muscleGroup) { setError("Please select a muscle group"); return; }
+    if (!equipment) { setError("Please select equipment"); return; }
+
+    onSave({
+      name: name.trim(),
+      muscleGroup: MUSCLE_GROUP_DB_MAP[muscleGroup] || muscleGroup.toLowerCase(),
+      secondaryMuscle: "",
+      difficulty,
+      equipment: EQUIPMENT_DB_MAP[equipment] || equipment.toLowerCase(),
+      goalTags: ["hypertrophy", "strength", "general"],
+      isCustom: true,
+      description: "",
+      commonMistakes: "",
+      repRanges: { strength: "3-5", hypertrophy: "8-12", endurance: "15-20" },
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40" onClick={onClose}>
+      <div
+        className="w-full bg-white rounded-t-3xl p-5 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] animate-slide-up max-h-[85vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Handle bar */}
+        <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-4" />
+
+        <h2 className="text-lg font-bold text-gray-900 mb-4">Create Custom Exercise</h2>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {/* Name */}
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">
+              Exercise Name
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => { setName(e.target.value); setError(""); }}
+              placeholder="e.g. Bulgarian Split Squat"
+              className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F]/30 focus:border-[#2D6A4F]"
+              autoFocus
+            />
+          </div>
+
+          {/* Muscle Group */}
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">
+              Muscle Group
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {MUSCLE_GROUP_OPTIONS.map((mg) => (
+                <button
+                  key={mg}
+                  type="button"
+                  onClick={() => { setMuscleGroup(mg); setError(""); }}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                    muscleGroup === mg
+                      ? "bg-[#2D6A4F] text-white"
+                      : "bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {mg}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Equipment */}
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">
+              Equipment
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {EQUIPMENT_OPTIONS.map((eq) => (
+                <button
+                  key={eq}
+                  type="button"
+                  onClick={() => { setEquipment(eq); setError(""); }}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                    equipment === eq
+                      ? "bg-[#2D6A4F] text-white"
+                      : "bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {eq}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Difficulty */}
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">
+              Difficulty
+            </label>
+            <div className="flex gap-2">
+              {LEVEL_OPTIONS.map((level) => (
+                <button
+                  key={level}
+                  type="button"
+                  onClick={() => setDifficulty(level)}
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-semibold capitalize transition-colors ${
+                    difficulty === level
+                      ? "bg-[#2D6A4F] text-white"
+                      : "bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {level}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Error */}
+          {error && (
+            <p className="text-xs text-red-500 font-medium">{error}</p>
+          )}
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-full py-3.5 bg-[#2D6A4F] text-white font-bold text-sm rounded-2xl active:scale-[0.98] transition-all mt-1"
+          >
+            Create Exercise
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 const DIFFICULTY_STYLES = {
   beginner: "bg-emerald-100 text-emerald-700",
   intermediate: "bg-amber-100 text-amber-700",
@@ -52,6 +219,7 @@ function ExerciseLibrary({
   userLevel = "beginner",
   selectionMode = false,
   onConfirmSelection,
+  onAddCustomExercise,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
@@ -60,6 +228,7 @@ function ExerciseLibrary({
   const [levelFilter, setLevelFilter] = useState("");
   const [selectedExercises, setSelectedExercises] = useState([]);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const toggleDropdown = (dropdown) => {
     setOpenDropdown((prev) => (prev === dropdown ? null : dropdown));
@@ -143,7 +312,20 @@ function ExerciseLibrary({
               />
             </svg>
           </button>
-          <h1 className="text-xl font-bold text-gray-900">Exercise Library</h1>
+          <h1 className="text-xl font-bold text-gray-900 flex-1">Exercise Library</h1>
+          {onAddCustomExercise && (
+            <button
+              type="button"
+              onClick={() => setShowCreateModal(true)}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#2D6A4F] text-white text-xs font-semibold active:scale-95 transition-transform"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Create
+            </button>
+          )}
         </div>
 
         {/* Search bar */}
@@ -535,6 +717,19 @@ function ExerciseLibrary({
             {selectedExercises.length !== 1 ? "s" : ""}
           </button>
         </div>
+      )}
+
+      {/* Create Custom Exercise Modal */}
+      {showCreateModal && (
+        <CreateExerciseModal
+          onClose={() => setShowCreateModal(false)}
+          onSave={(exerciseData) => {
+            if (onAddCustomExercise) {
+              onAddCustomExercise(exerciseData);
+            }
+            setShowCreateModal(false);
+          }}
+        />
       )}
     </div>
   );
