@@ -6,6 +6,7 @@ import ExerciseLibrary from './pages/ExerciseLibrary';
 import ActiveWorkout from './pages/ActiveWorkout';
 import ProgressDashboard from './pages/ProgressDashboard';
 import Settings from './pages/Settings';
+import FeedbackForm from './pages/FeedbackForm';
 import BottomNav from './components/BottomNav';
 import RestTimerBar from './components/RestTimerBar';
 import Toast from './components/Toast';
@@ -604,6 +605,15 @@ export default function App() {
             onUpdateSettings={handleUpdateSettings}
             onRetakeQuiz={handleRetakeQuiz}
             onResetData={handleResetData}
+            onOpenFeedback={() => setPage('feedback')}
+          />
+        );
+
+      case 'feedback':
+        return (
+          <FeedbackForm
+            onBack={() => setPage('settings')}
+            userName={userProfile.name}
           />
         );
 
@@ -612,7 +622,7 @@ export default function App() {
     }
   }
 
-  const showNav = !['muscle_select', 'active_workout', 'exercise_picker', 'onboarding'].includes(page);
+  const showNav = !['muscle_select', 'active_workout', 'exercise_picker', 'onboarding', 'feedback'].includes(page);
 
   return (
     <div className="h-full flex flex-col bg-bg">

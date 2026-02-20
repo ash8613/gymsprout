@@ -421,6 +421,7 @@ export default function Settings({
   onUpdateSettings,
   onRetakeQuiz,
   onResetData,
+  onOpenFeedback,
 }) {
   return (
     <div className="min-h-dvh bg-[#FAFAF9] pb-8">
@@ -450,6 +451,31 @@ export default function Settings({
           onRetakeQuiz={onRetakeQuiz}
           onResetData={onResetData}
         />
+
+        {/* Feedback */}
+        {onOpenFeedback && (
+          <button
+            type="button"
+            onClick={onOpenFeedback}
+            className="
+              w-full bg-white rounded-2xl shadow-sm p-5
+              flex items-center gap-4
+              active:scale-[0.99] transition-all duration-150 cursor-pointer
+              text-left
+            "
+          >
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+              <span className="text-lg">💬</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-stone-800">Send Feedback</p>
+              <p className="text-xs text-stone-400 mt-0.5">
+                Help us improve GymSprout with your thoughts
+              </p>
+            </div>
+            <span className="text-stone-300 text-lg shrink-0">{"\u203A"}</span>
+          </button>
+        )}
 
         {/* About footer */}
         <div className="text-center py-6">
