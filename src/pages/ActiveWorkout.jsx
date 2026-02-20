@@ -181,20 +181,22 @@ function SetLoggingForm({ exerciseId, lastSet, nextSetNumber, onLog }) {
         >
           -
         </StepperButton>
-        <input
-          type="number"
-          inputMode="numeric"
-          step="1"
-          min="1"
-          value={reps}
-          onChange={(e) => setReps(parseInt(e.target.value, 10) || 1)}
-          className="
-            flex-1 text-center text-lg font-bold bg-white
-            border border-border rounded-xl py-2.5 min-h-[44px]
-            focus:outline-none focus:ring-2 focus:ring-primary/30
-          "
-          aria-label="Number of reps"
-        />
+        <div className="flex-1">
+          <input
+            type="number"
+            inputMode="numeric"
+            step="1"
+            min="1"
+            value={reps}
+            onChange={(e) => setReps(parseInt(e.target.value, 10) || 1)}
+            className="
+              w-full text-center text-lg font-bold bg-white
+              border border-border rounded-xl py-2.5 min-h-[44px]
+              focus:outline-none focus:ring-2 focus:ring-primary/30
+            "
+            aria-label="Number of reps"
+          />
+        </div>
         <StepperButton
           onClick={() => setReps((r) => r + 1)}
           ariaLabel="Increase reps by 1"
@@ -530,7 +532,7 @@ export default function ActiveWorkout({
       <Toast message={toast.message} visible={toast.visible} />
 
       {/* ── Workout Summary Bar (sticky top) ──────────────────────────────── */}
-      <div className="sticky top-0 z-30 bg-card/95 backdrop-blur-md border-b border-border">
+      <div className="sticky top-0 z-30 bg-card/95 backdrop-blur-md border-b border-border pt-[env(safe-area-inset-top)]">
         <div className="px-4 py-3">
           <div className="flex items-center justify-between gap-3">
             {/* Back button + Stats */}

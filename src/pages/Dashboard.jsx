@@ -142,7 +142,7 @@ export default function Dashboard({
 
   return (
     <div className="min-h-screen bg-bg pb-24">
-      <div className="px-4 pt-6">
+      <div className="px-4 pt-[calc(env(safe-area-inset-top)+1.5rem)]">
         {/* ── Welcome Header ─────────────────────────────────────────── */}
         <header
           className={`mb-6 transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}

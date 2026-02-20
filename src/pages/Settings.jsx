@@ -425,7 +425,7 @@ export default function Settings({
   return (
     <div className="min-h-dvh bg-[#FAFAF9] pb-8">
       {/* Header */}
-      <div className="bg-[#2D6A4F] px-4 pt-12 pb-8 rounded-b-3xl">
+      <div className="bg-[#2D6A4F] px-4 pt-[calc(env(safe-area-inset-top)+2rem)] pb-8 rounded-b-3xl">
         <div>
           <h1 className="text-2xl font-extrabold text-white mb-1">Settings</h1>
           <p className="text-white/70 text-sm">
