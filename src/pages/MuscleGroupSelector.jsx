@@ -11,10 +11,12 @@ const MUSCLE_GROUPS = [
   { id: "core", name: "Core", emoji: "\uD83C\uDFAF" },
   { id: "calves", name: "Calves", emoji: "\uD83E\uDDB6" },
   { id: "full_body", name: "Full Body", emoji: "\u26A1" },
+  { id: "cardio", name: "Cardio", emoji: "\u2764\uFE0F\u200D\uD83D\uDD25" },
 ];
 
 function MuscleGroupSelector({
   onSelectMuscleGroups,
+  onBack,
   userLevel = "beginner",
   recentMuscleGroups = [],
 }) {
@@ -45,12 +47,28 @@ function MuscleGroupSelector({
     <div className="min-h-screen bg-[#F5F5F0] pb-28">
       {/* Header */}
       <div className="px-4 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-4">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Choose Muscle Groups
-        </h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Select the muscle groups you want to train today
-        </p>
+        <div className="flex items-center gap-3 mb-1">
+          {onBack && (
+            <button
+              type="button"
+              onClick={onBack}
+              className="w-10 h-10 flex items-center justify-center rounded-xl bg-white shadow-sm active:scale-95 transition-transform"
+              aria-label="Go back"
+            >
+              <svg className="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          )}
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Choose Muscle Groups
+            </h1>
+            <p className="text-sm text-gray-500 mt-0.5">
+              Select the muscle groups you want to train today
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Beginner suggestion banner */}

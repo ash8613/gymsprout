@@ -206,4 +206,5 @@ export const MUSCLE_GROUPS = [
   { id: 'core', name: 'Core', emoji: '🎯' },
   { id: 'calves', name: 'Calves', emoji: '🦶' },
   { id: 'full_body', name: 'Full Body', emoji: '⚡' },
+  { id: 'cardio', name: 'Cardio', emoji: '❤️‍🔥' },
 ];

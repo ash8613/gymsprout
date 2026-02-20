@@ -288,6 +288,7 @@ function ExerciseCard({
     shoulders: 'bg-orange-100 text-orange-700',
     arms: 'bg-teal-100 text-teal-700',
     core: 'bg-yellow-100 text-yellow-800',
+    cardio: 'bg-rose-100 text-rose-700',
   };
   const badge =
     badgeColor[(exercise.muscleGroup || '').toLowerCase()] ||

@@ -521,6 +521,7 @@ export default function App() {
         return (
           <MuscleGroupSelector
             onSelectMuscleGroups={handleMuscleGroupsSelected}
+            onBack={() => setPage('dashboard')}
             userLevel={userProfile.level}
             recentMuscleGroups={recentMuscleGroups}
           />

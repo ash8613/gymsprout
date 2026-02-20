@@ -11,6 +11,7 @@ const MUSCLE_GROUP_OPTIONS = [
   "Core",
   "Calves",
   "Full Body",
+  "Cardio",
 ];
 
 const EQUIPMENT_OPTIONS = [
@@ -38,6 +39,7 @@ const MUSCLE_GROUP_DB_MAP = {
   "Core": "core",
   "Calves": "calves",
   "Full Body": "full_body",
+  "Cardio": "cardio",
 };
 
 const EQUIPMENT_DB_MAP = {
@@ -210,6 +212,7 @@ const MUSCLE_GROUP_COLORS = {
   Core: "bg-yellow-100 text-yellow-700",
   Calves: "bg-indigo-100 text-indigo-700",
   "Full Body": "bg-emerald-100 text-emerald-700",
+  Cardio: "bg-red-100 text-red-700",
 };
 
 function ExerciseLibrary({
