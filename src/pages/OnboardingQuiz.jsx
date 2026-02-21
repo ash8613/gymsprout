@@ -152,14 +152,12 @@ function ProgressBar({ current, total }) {
 
 function ScoredQuestion({ question, onSelect }) {
   const [selected, setSelected] = useState(null);
-  const [showFeedback, setShowFeedback] = useState(false);
 
   const handleSelect = useCallback(
     (idx) => {
       if (selected !== null) return; // prevent double-tap
       setSelected(idx);
-      setShowFeedback(true);
-      // brief pause to show feedback then advance
+      // brief pause to show selection highlight then advance
       setTimeout(() => {
         onSelect(question.options[idx].points);
       }, 600);
@@ -212,25 +210,17 @@ function ScoredQuestion({ question, onSelect }) {
         })}
       </div>
 
-      {/* Positive feedback */}
-      {showFeedback && (
-        <p className="mt-6 text-[#2D6A4F] font-semibold text-lg animate-fadeIn">
-          Great choice!
-        </p>
-      )}
     </div>
   );
 }
 
 function GoalQuestion({ onSelect }) {
   const [selected, setSelected] = useState(null);
-  const [showFeedback, setShowFeedback] = useState(false);
 
   const handleSelect = useCallback(
     (goal) => {
       if (selected !== null) return;
       setSelected(goal);
-      setShowFeedback(true);
       setTimeout(() => {
         onSelect(goal);
       }, 600);
@@ -282,11 +272,6 @@ function GoalQuestion({ onSelect }) {
         })}
       </div>
 
-      {showFeedback && (
-        <p className="mt-6 text-[#F59E0B] font-semibold text-lg animate-fadeIn">
-          Awesome pick!
-        </p>
-      )}
     </div>
   );
 }

@@ -1,0 +1,12 @@
+{
+  "appId": "com.gymsprout.app",
+  "appName": "GymSprout",
+  "webDir": "dist",
+  "ios": {
+    "contentInset": "automatic",
+    "backgroundColor": "#FAFAF9"
+  },
+  "android": {
+    "backgroundColor": "#FAFAF9"
+  }
+}

@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 const MUSCLE_GROUPS = [
-  { id: "chest", name: "Chest", emoji: "\uD83D\uDCAA" },
+  { id: "chest", name: "Chest", emoji: "\uD83E\uDEC1" },
   { id: "back", name: "Back", emoji: "\uD83D\uDD19" },
   { id: "shoulders", name: "Shoulders", emoji: "\uD83C\uDFCB\uFE0F" },
   { id: "biceps", name: "Biceps", emoji: "\uD83D\uDCAA" },
-  { id: "triceps", name: "Triceps", emoji: "\uD83D\uDCAA" },
+  { id: "triceps", name: "Triceps", emoji: "\uD83E\uDD1C" },
   { id: "legs", name: "Legs", emoji: "\uD83E\uDDB5" },
   { id: "hamstrings", name: "Glutes & Hams", emoji: "\uD83C\uDF51" },
   { id: "core", name: "Core", emoji: "\uD83C\uDFAF" },

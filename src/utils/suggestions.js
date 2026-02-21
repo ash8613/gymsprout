@@ -196,11 +196,11 @@ export function getEncouragingMessage(context) {
 }
 
 export const MUSCLE_GROUPS = [
-  { id: 'chest', name: 'Chest', emoji: '💪' },
+  { id: 'chest', name: 'Chest', emoji: '🫁' },
   { id: 'back', name: 'Back', emoji: '🔙' },
   { id: 'shoulders', name: 'Shoulders', emoji: '🏋️' },
   { id: 'biceps', name: 'Biceps', emoji: '💪' },
-  { id: 'triceps', name: 'Triceps', emoji: '💪' },
+  { id: 'triceps', name: 'Triceps', emoji: '🤜' },
   { id: 'legs', name: 'Legs', emoji: '🦵' },
   { id: 'glutes', name: 'Glutes', emoji: '🍑' },
   { id: 'core', name: 'Core', emoji: '🎯' },

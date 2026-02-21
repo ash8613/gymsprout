@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const RATINGS = [
   { value: 1, emoji: "😞", label: "Poor" },
@@ -22,26 +22,58 @@ export default function FeedbackForm({ onBack, userName }) {
   const [category, setCategory] = useState("");
   const [message, setMessage] = useState("");
   const [name, setName] = useState(userName || "");
+  const [attachment, setAttachment] = useState(null);
+  const [preview, setPreview] = useState(null);
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [showValidation, setShowValidation] = useState(false);
+  const fileInputRef = useRef(null);
 
   const canSubmit = rating > 0 && message.trim().length > 0 && status === "idle";
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    if (!canSubmit) return;
+  function handleAttach(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAttachment(file);
+    const reader = new FileReader();
+    reader.onload = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
+  }
 
+  function removeAttachment() {
+    setAttachment(null);
+    setPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
+  function handleSubmitAttempt(e) {
+    e.preventDefault();
+    if (!canSubmit) {
+      setShowValidation(true);
+      return;
+    }
+    handleSubmit();
+  }
+
+  async function handleSubmit() {
     setStatus("sending");
 
     try {
+      const formData = new FormData();
+      formData.append("name", name.trim() || "Anonymous");
+      formData.append(
+        "rating",
+        `${rating}/5 (${RATINGS.find((r) => r.value === rating)?.label})`
+      );
+      formData.append("category", category || "General Feedback");
+      formData.append("message", message.trim());
+      if (attachment) {
+        formData.append("attachment", attachment);
+      }
+
       const res = await fetch("https://formspree.io/f/xnjbbged", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name: name.trim() || "Anonymous",
-          rating: `${rating}/5 (${RATINGS.find((r) => r.value === rating)?.label})`,
-          category: category || "General Feedback",
-          message: message.trim(),
-        }),
+        headers: { Accept: "application/json" },
+        body: formData,
       });
 
       if (res.ok) {
@@ -123,7 +155,7 @@ export default function FeedbackForm({ onBack, userName }) {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="px-4 -mt-4 flex flex-col gap-4">
+      <form onSubmit={handleSubmitAttempt} className="px-4 -mt-4 flex flex-col gap-4">
         {/* Rating */}
         <div className="bg-white rounded-2xl shadow-sm p-5">
           <label className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-3 block px-1">
@@ -134,7 +166,7 @@ export default function FeedbackForm({ onBack, userName }) {
               <button
                 key={r.value}
                 type="button"
-                onClick={() => setRating(r.value)}
+                onClick={() => { setRating(r.value); if (showValidation) setShowValidation(false); }}
                 className={`
                   flex-1 flex flex-col items-center gap-1 py-3 rounded-xl
                   transition-all duration-150 active:scale-[0.95]
@@ -156,6 +188,9 @@ export default function FeedbackForm({ onBack, userName }) {
               </button>
             ))}
           </div>
+          {showValidation && rating === 0 && (
+            <p className="text-xs text-red-500 font-medium mt-2 px-1">Please select a rating</p>
+          )}
         </div>
 
         {/* Category */}
@@ -205,14 +240,14 @@ export default function FeedbackForm({ onBack, userName }) {
           />
         </div>
 
-        {/* Message */}
+        {/* Message + Attachment */}
         <div className="bg-white rounded-2xl shadow-sm p-5">
           <label className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-3 block px-1">
             Your Feedback *
           </label>
           <textarea
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => { setMessage(e.target.value); if (showValidation && e.target.value.trim()) setShowValidation(false); }}
             placeholder="Tell us what you think, report a bug, or suggest a feature..."
             rows={5}
             maxLength={1000}
@@ -223,9 +258,76 @@ export default function FeedbackForm({ onBack, userName }) {
               transition-all duration-200 placeholder:text-stone-300
             "
           />
-          <p className="text-[10px] text-stone-300 mt-1.5 text-right px-1">
-            {message.length}/1000
-          </p>
+          <div className="flex items-center justify-between mt-1.5 px-1">
+            <p className="text-[10px] text-stone-300">
+              {message.length}/1000
+            </p>
+          </div>
+
+          {showValidation && message.trim().length === 0 && (
+            <p className="text-xs text-red-500 font-medium mt-1 px-1">Please write your feedback</p>
+          )}
+
+          {/* Attachment area */}
+          <div className="mt-3 pt-3 border-t border-stone-100">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleAttach}
+              className="hidden"
+            />
+
+            {preview ? (
+              <div className="flex items-start gap-3">
+                <div className="relative">
+                  <img
+                    src={preview}
+                    alt="Attachment preview"
+                    className="w-20 h-20 rounded-xl object-cover border border-stone-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={removeAttachment}
+                    className="
+                      absolute -top-2 -right-2 w-6 h-6 rounded-full
+                      bg-red-500 text-white text-xs font-bold
+                      flex items-center justify-center
+                      shadow-sm active:scale-90 transition-transform
+                    "
+                    aria-label="Remove attachment"
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-medium text-stone-600 truncate">
+                    {attachment?.name}
+                  </p>
+                  <p className="text-[10px] text-stone-400 mt-0.5">
+                    {attachment ? `${(attachment.size / 1024).toFixed(0)} KB` : ""}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="
+                  w-full flex items-center justify-center gap-2
+                  py-3 rounded-xl border-2 border-dashed border-stone-200
+                  text-xs font-semibold text-stone-400
+                  active:bg-stone-50 active:scale-[0.98] transition-all duration-150
+                "
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Attach Screenshot (optional)
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Error message */}
@@ -246,14 +348,13 @@ export default function FeedbackForm({ onBack, userName }) {
         {/* Submit */}
         <button
           type="submit"
-          disabled={!canSubmit}
           className={`
             w-full py-4 rounded-2xl text-base font-bold
             transition-all duration-200
             ${
               canSubmit
                 ? "bg-[#2D6A4F] text-white shadow-lg shadow-emerald-900/20 active:scale-[0.98]"
-                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-gray-200 text-gray-400"
             }
           `}
         >

@@ -592,6 +592,17 @@ export default function ActiveWorkout({
                 <span className="text-xs text-text-muted">Sure?</span>
                 <button
                   type="button"
+                  onClick={() => setShowFinishConfirm(false)}
+                  className="
+                    min-h-[44px] px-3 bg-border text-text
+                    font-semibold text-sm rounded-xl
+                    active:scale-95 transition-all
+                  "
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
                   onClick={() => {
                     setShowFinishConfirm(false);
                     onFinishWorkout();
@@ -603,17 +614,6 @@ export default function ActiveWorkout({
                   "
                 >
                   Yes, Finish
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowFinishConfirm(false)}
-                  className="
-                    min-h-[44px] px-3 bg-border text-text
-                    font-semibold text-sm rounded-xl
-                    active:scale-95 transition-all
-                  "
-                >
-                  Cancel
                 </button>
               </div>
             )}
